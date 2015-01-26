@@ -1,13 +1,19 @@
 #!/bin/bash
 
+DB_PASSWORD="mypass"
+DB_DATABASE="teampass"
+
 which docker > /dev/null 2>&1
 if [ "$?" != 0 ]; then
     echo 'Veuillez installer docker'
     exit 2
 fi
 
-DB_PASSWORD="mypass"
-DB_DATABASE="teampass"
+which mysql > /dev/null 2>&1
+if [ "$?" != 0 ]; then
+    echo 'Veuillez installer mysql'
+    exit 2
+fi
 
 docker rm -f teampass
 docker build -t teampass .
