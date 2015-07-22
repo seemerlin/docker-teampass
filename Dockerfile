@@ -1,10 +1,16 @@
-FROM tutum/lamp:latest
+FROM richarvey/nginx-php-fpm:stable
 
-RUN rm -fr /app && git clone https://github.com/nilsteampassnet/TeamPass.git /app
-RUN cd /app && git checkout 2.1.19
-RUN chmod 777 /app/install/ /app/includes/ /app/files/ /app/upload/
+ENV path /app
+ENV version 2.1.19
+
+RUN apt-get update --fix-missing
+RUN apt-get install -y vim git
+RUN git clone https://github.com/nilsteampassnet/TeamPass.git ${path}
+RUN cd ${path} && git checkout $version
+RUN chmod 777 ${path}/install/ ${path}/includes/ ${path}/files/ ${path}/upload/
+RUN sed -i -e 's/root \/usr\/share\/nginx\/html/root \/app/g' /etc/nginx/sites-enabled/default.conf
+RUN sed -i -e 's/max_execution_time = 30/max_execution_time = 60/g' /etc/php5/fpm/php.ini
 RUN php5enmod mcrypt
 
-EXPOSE 80 3306
+EXPOSE 80
 
-CMD ["/run.sh"]

@@ -1,0 +1,14 @@
+teampass:
+    image: jcherqui/docker-teampass:latest
+    ports:
+        - "80:80"
+    links:
+        - mysql:mysql
+mysql:
+    image: mysql:latest
+    ports:
+        - "3306:3306"
+    environment:
+        - MYSQL_ROOT_PASSWORD=mypass
+        - MYSQL_DATABASE=teampass
+

@@ -6,16 +6,27 @@ Teampass is a Collaborative Passwords Manager
 Quick Start
 -----------
 
-```
-docker run --name teampass -d -p 80:80 -p 3306:3306 \
--e MYSQL_PASS="mypass" jcherqui/docker-teampass
-```
+`docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=mypass -e MYSQL_DATABASE=teampass mysql`
+
+`docker run -d --name teampass -p 80:80 --link mysql:mysql jcherqui/docker-teampass`
+
 -- or --  
+
+`docker-compose up -d`
+
+-- or --
+
 `bash install.sh`
 
 Point your browser to `http://127.0.0.1`
 
-Absolute path to teampass folder : `/app`
+DataBase Informations
+-------
+
+Host : mysql   
+Database : teampass   
+Login : root   
+Password : mypass
 
 License
 ----
